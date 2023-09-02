@@ -1,10 +1,24 @@
 # bacchus-adapter
+
 Project for converting bacchus exported PDF to a better one
 
-## How to build exe
+## Setup
+
+Install requirements
+̨̨̨
+
+```
+pip3 install pyinstaller
+pip3 install -r requirements.txt
+```
+
+## How to build executable file
 
 Run
+
 ```
-pyinstaller main.spec
+pyinstaller --onefile adapter/main.py
 ```
-Exe file is in `dist/Bacchus adapter/Bacchus adapter`
+
+Executable file is in `dist/`
+
