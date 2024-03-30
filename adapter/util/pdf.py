@@ -2,14 +2,15 @@ import math
 import os
 
 from reportlab.lib import colors
+from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.pagesizes import letter
-from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.platypus import SimpleDocTemplate, Paragraph, PageBreak, Table, TableStyle
 
 from adapter.util.table import get_table_data, get_date, get_dict_from_table
 
 
-def create_pdf(date, wines, output_pdf):
+def create_pdf(date, wines, output_pdf, client_name):
     doc = SimpleDocTemplate(output_pdf, pagesize=letter)
 
     # Calculate the number of tables needed
@@ -21,9 +22,14 @@ def create_pdf(date, wines, output_pdf):
 
     # Add title to the document
     styles = getSampleStyleSheet()
-    title_style = styles['Title']
-    title_text = Paragraph("Analiza " + date, title_style)
+    title_style = styles["Title"]
+    title_text = Paragraph(client_name, title_style)
     elements.append(title_text)
+
+    # Add subtitle to the document
+    subtitle_style = ParagraphStyle(name='SubtitleStyle', parent=styles['Normal'], alignment=TA_CENTER)
+    subtitle_text = Paragraph(date, subtitle_style)
+    elements.append(subtitle_text)
 
     # Create tables with up to 6 wines each
     for table_num in range(num_tables):
@@ -71,8 +77,8 @@ def create_pdf(date, wines, output_pdf):
     print("PDF successfully created at ", os.path.abspath(output_pdf))
 
 
-def convert_to_proper_pdf(input_pdf, output_pdf):
+def convert_to_proper_pdf(input_pdf, output_pdf, client_name):
     table_data = get_table_data(input_pdf)
     date = get_date(table_data)
     wines_dict = get_dict_from_table(table_data)
-    create_pdf(date, wines_dict, output_pdf)
+    create_pdf(date, wines_dict, output_pdf, client_name)
