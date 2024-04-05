@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='bacchus-adapter',
-    version='1.0.0',
+    version='2.0.0',
     packages=['adapter', 'adapter.util'],
     url='https://github.com/marinco/bacchus-adapter',
     license='',

@@ -1,0 +1,53 @@
+name: Build Windows executable file
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_body:
+        description: 'Description that will be used as the body of the release'
+        required: true
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.12
+
+      - name: Install Dependencies
+        run: pip install -r requirements.txt pyinstaller
+
+      - name: Build Executable
+        run: pyinstaller --onefile --windowed adapter/main.py
+
+      - name: Set Release Version
+        id: set_version
+        run: |
+          echo "::set-output name=VERSION::v$(python setup.py --version)"
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ steps.set_version.outputs.VERSION }}
+          release_name: ${{ steps.set_version.outputs.VERSION }}
+          body: ${{ github.event.inputs.release_body }}
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{steps.create_release.outputs.upload_url}}
+          asset_path: dist/main
+          asset_name: bacchus-adapter.exe
+          asset_content_type: application/zip
