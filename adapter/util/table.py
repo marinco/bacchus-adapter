@@ -1,3 +1,5 @@
+import re
+
 import camelot
 
 wine_properties = [
@@ -64,7 +66,7 @@ def get_dict_from_table(table_data):
             if i >= len(wine_properties) or j >= len(table_data):
                 break
             if "\n" in table_data[offset + j][key]:
-                parts = table_data[offset + j][key].split("\n")
+                parts = re.split(r'\s+', table_data[offset + j][key])
                 k = 0
                 while k < len(parts) and i < len(wine_properties):
                     wine[wine_properties[i]] = parts[k]
