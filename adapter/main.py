@@ -2,6 +2,7 @@ import tkinter as tk
 import traceback
 from tkinter import filedialog
 
+from adapter import __version__
 from adapter.util.pdf import convert_to_proper_pdf
 
 
@@ -23,11 +24,11 @@ def process_file(file_path):
         result_label.config(text="Greška: " + str(err))
 
 
-print("Starting Bacchus adapter")
+print("Starting Bacchus adapter version", __version__)
 
 # Create the main application window
 app = tk.Tk()
-app.title("Bacchus adapter")
+app.title("Bacchus adapter " + __version__)
 app.geometry("300x150")
 
 # Title label and entry

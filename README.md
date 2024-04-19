@@ -26,4 +26,4 @@ Executable file is in `dist/`
 
 ### Note
 
-On successful PR the Windows exe file build release will fail unless the version in `setup.py` is bumped
+On successful PR the Windows exe file build release will fail unless the version in `adapter/__init__.py` is bumped

@@ -1,8 +1,10 @@
 from setuptools import setup
 
+from adapter import __version__
+
 setup(
     name='bacchus-adapter',
-    version='2.0.1',
+    version=__version__,
     packages=['adapter', 'adapter.util'],
     url='https://github.com/marinco/bacchus-adapter',
     license='',
